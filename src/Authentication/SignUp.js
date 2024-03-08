@@ -2,29 +2,24 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios"; // Import axios
-import { useEffect } from "react";
+import axios from "axios";
+import UpdateDetails from "../HomeComponent/UpdateDetails";
+import { API_BASE_URL } from "../HomeComponent/apiConfig";
 
 const SignUp = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    cno: "",
+    address: "",
     agreeTerms: false,
   });
 
   const [registered, setRegistered] = useState(false);
-
-  useEffect(() => {
-    if (registered) {
-      const timeout = setTimeout(() => {
-        navigate("/login");
-      }, 3000); 
-      return () => clearTimeout(timeout);
-    }
-  }, [registered, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -35,58 +30,54 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    // Prevent the default form submission behavior
     e.preventDefault();
-  
-    // Check if all required fields are filled
+
     if (
-      formData.name === "" ||
-      formData.email === "" ||
-      formData.password === "" ||
-      formData.confirmPassword === ""
+      Object.values(formData).some((field) => field === "") ||
+      !formData.agreeTerms
     ) {
-      // If any required field is empty, show an error toast
-      toast.error("Please fill all required fields");
+      toast.error("Please fill all required fields and agree to terms");
       return;
     }
-  
+
     try {
-      
-      setTimeout(() => {
-        
-        console.log("Form data:", formData);
-  
-       
-        toast.success("Registered Successfully!");
-  
-        
+      const response = await axios.post(`http://localhost:8080/user`, formData);
+
+      if (response.status === 200) {
         setRegistered(true);
-      }, 1000); 
+        toast.success("Registered Successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          cno: "",
+          address: "",
+          agreeTerms: false,
+        });
+      }
     } catch (error) {
       console.error("Error occurred:", error);
       toast.error("An error occurred. Please try again.");
     }
   };
-  
-  
+
   return (
     <section className="vh-100" style={{ backgroundColor: "#eee" }}>
       <div className="container h-100">
-        <section className="vh-100" style={{ backgroundColor: "#eee" }}>
-          <div className="container h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-lg-12 col-xl-11">
-                <div
-                  className="card text-black"
-                  style={{ borderRadius: "25px" }}
-                >
-                  <div className="card-body p-md-5">
-                    <div className="row justify-content-center">
-                      <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                          Hostel Management Sign up
-                        </p>
-                        <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-lg-12 col-xl-11">
+            <div
+              className="card text-black"
+              style={{ borderRadius: "25px" }}
+            >
+              <div className="card-body p-md-5">
+                <div className="row justify-content-center">
+                  <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                    <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                      Hostel Management Sign up
+                    </p>
+                    <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
                           <div className="d-flex flex-row align-items-center mb-4">
                             <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                             <div className="form-outline flex-fill mb-0">
@@ -163,6 +154,44 @@ const SignUp = () => {
                               </label>
                             </div>
                           </div>
+                          <div className="d-flex flex-row align-items-center mb-4">
+                            <i className="fas fa-phone fa-lg me-3 fa-fw"></i>
+                            <div className="form-outline flex-fill mb-0">
+                              <input
+                                type="text"
+                                id="formHostelContact"
+                                name="cno"
+                                className="form-control"
+                                value={formData.cno}
+                                onChange={handleInputChange}
+                              />
+                              <label
+                                className="form-label"
+                                htmlFor="formHostelContact"
+                              >
+                                Contact
+                              </label>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-row align-items-center mb-4">
+                            <i className="fas fa-map-marker-alt fa-lg me-3 fa-fw"></i>
+                            <div className="form-outline flex-fill mb-0">
+                              <input
+                                type="text"
+                                id="formHostelAddress"
+                                name="address"
+                                className="form-control"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                              />
+                              <label
+                                className="form-label"
+                                htmlFor="formHostelAddress"
+                              >
+                                Address
+                              </label>
+                            </div>
+                          </div>
                           <div className="form-check d-flex justify-content-center mb-5">
                             <input
                               className="form-check-input me-2"
@@ -189,23 +218,27 @@ const SignUp = () => {
                             </button>
                           </div>
                         </form>
-                      </div>
-                      <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                        <img
-                          src="https://s3.us-west-2.amazonaws.com/www.bookingninjas.com/img/illustration-2.svg"
-                          className="img-fluid"
-                          alt="Sample image"
-                        />
-                      </div>
-                    </div>
+                  </div>
+                  <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                    <img
+                      src="https://s3.us-west-2.amazonaws.com/www.bookingninjas.com/img/illustration-2.svg"
+                      className="img-fluid"
+                      alt="Sample image"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <ToastContainer />
-        </section>
+        </div>
       </div>
+      {/* Show UpdateDetails modal when registered state is true */}
+      {registered && (
+        <UpdateDetails
+          handleClose={() => setRegistered(false)}
+          formData={formData}
+        />
+      )}
       <ToastContainer />
     </section>
   );

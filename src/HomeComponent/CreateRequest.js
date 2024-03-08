@@ -20,6 +20,11 @@ const CreateRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.reason.trim() === "" || formData.description.trim() === "") {
+      toast.error("Please fill in both fields to create a request");
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${API_BASE_URL}/rails/user_profile/request/2`,
