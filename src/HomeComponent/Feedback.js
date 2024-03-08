@@ -1,18 +1,13 @@
-// CreateRequest.js
-
 import React, { useState } from "react";
 import Rating from "react-rating-stars-component";
 import axios from "axios";
 import "../CSS/CreateRequest.css";
-import "../CSS/Feedback.css"
+import "../CSS/Feedback.css";
+import { API_BASE_URL } from "./apiConfig";
 const Feedback = () => {
   const [formData, setFormData] = useState({
-    fname: "",
-    lname: "",
-    email: "",
-    mob: "",
-    job: "",
-    ans: "",
+    feedback: "",
+    rating: 0,
   });
 
   const handleChange = (e) => {
@@ -26,15 +21,14 @@ const Feedback = () => {
   const handleRatingChange = (newRating) => {
     setFormData((prevState) => ({
       ...prevState,
-      rating: newRating, // Update the rating state
+      rating: newRating,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/user/feedback/request", formData);
-      // endpoint ke through api hit hoti he
+      const response = await axios.post(`${API_BASE_URL}/rails/user_profile/feedback/1`, formData);
       console.log(response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -61,24 +55,21 @@ const Feedback = () => {
                     </label>
                     <input
                       type="text"
-                      name="job"
-                      value={formData.job}
+                      name="feedback"
+                      value={formData.feedback}
                       onChange={handleChange}
                       className="form-control"
                       placeholder="Enter feedback"
                     />
                   </div>
                 </div>
-
                 <br />
                 <div className="row justify-content-center text-left">
                   <div className="form-group col-sm-6 flex-column d-flex myRating">
-                    
                     <label className="form-control-label px-3">
                       Rating<span className="text-danger"> *</span>
                     </label>
-                    {/* Render the rating component */}
-                  <Rating 
+                    <Rating
                       count={5}
                       edit={true}
                       onChange={handleRatingChange}
@@ -90,11 +81,8 @@ const Feedback = () => {
                 </div>
                 <div className="row justify-content-center">
                   <div className="form-group col-sm-6">
-                    <button
-                      type="submit"
-                      className="btn-block btn-primary"
-                    >
-                      Generate Feedback 
+                    <button type="submit" className="btn-block btn-primary">
+                      Generate Feedback
                     </button>
                   </div>
                 </div>

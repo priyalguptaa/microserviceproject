@@ -20,6 +20,7 @@ import Housekeeping from './HomeComponent/HouseKeeping';
 import LaundryDetail from './HomeComponent/LaundaryDetail';
 import  Warden  from './HomeComponent/Warden';
 import Feedback from './HomeComponent/Feedback';
+import DocumentUpload from './HomeComponent/DocumentUpload'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path='/housekeeping' element={<Housekeeping/>}/>
         <Route path='/laundary-detail' element={<LaundryDetail/>}/>
         <Route path='/warden' element={<Warden/>}/>
+        <Route path='/documentupload' element={<DocumentUpload/>}/>
       </Routes>
       <ToastContainer/>
     </BrowserRouter>
