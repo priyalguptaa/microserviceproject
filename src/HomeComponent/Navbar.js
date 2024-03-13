@@ -5,7 +5,7 @@ import CreateRequest from "./CreateRequest";
 import UpdateDetail from "./UpdateDetails";
 import DocumentUpload from "./DocumentUpload";
 
-const Navbar = ({ formData }) => {
+const Navbar = ({ formData, onUpdateDetails  }) => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showCreateRequest, setShowCreateRequest] = useState(false);
@@ -157,6 +157,8 @@ const Navbar = ({ formData }) => {
                   color: "rgba(0, 0, 0, .9)",
                 }}
                 onClick={handleShowUpdateModal}
+                
+                
               >
                 Update Details
               </div>
@@ -195,6 +197,8 @@ const Navbar = ({ formData }) => {
         show={showUpdateModal}
         handleClose={handleCloseUpdateModal}
         formData={formData} 
+        onUpdateDetails={onUpdateDetails}
+        
       />
 
       {showDocumentUpload && (

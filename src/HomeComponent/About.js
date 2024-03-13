@@ -3,8 +3,8 @@ import '../CSS/About.css';
 
 const About = () => {
   return (
-    <div className="aboutContainer">
-      <div className="aboutContent">
+    <div className="aboutContainer" style={{ marginLeft: '-21px' }}>
+      <div className="aboutContent" style={{ paddingTop: '20px' }}>
         <h1>About Hostel Management System</h1>
         <p>
           Welcome to our Hostel Management System! We are dedicated to providing a seamless and efficient experience for managing hostel operations.

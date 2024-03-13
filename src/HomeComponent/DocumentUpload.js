@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../CSS/DocumentUpload.css';
 
-const DocumentUpload = ({ handleClose }) => {
+const DocumentUpload = ({ handleClose = () => {} }) => {
   const navigate = useNavigate();
   const [aadharCard, setAadharCard] = useState(null);
   const [photo, setPhoto] = useState(null);
@@ -34,11 +34,12 @@ const DocumentUpload = ({ handleClose }) => {
     setAadharCard(null);
     setPhoto(null);
     setUploadComplete(true);
-    // this is used to remove the box
+    
   };
 
   const handleCancel = () => {
     handleClose(); 
+
     navigate('/homepage');
   };
 

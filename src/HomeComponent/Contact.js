@@ -73,7 +73,7 @@ const Contact = () => {
  
   return (
     <div>
-      <div className="contactContainer">
+      <div className="contactContainer" style={{marginLeft:'-21px'}}>
         <h1>Contact Us</h1>
         <p>Feel free to contact any of our staff members for assistance:</p>
         <div className="staffList">
