@@ -12,7 +12,7 @@ const UpdateDetails = ({ show, handleClose}) => {
     name: '',
     email: '',
     password: '',
-    contact: '',
+    cno: '',
     address: '',
   });
 
@@ -91,7 +91,7 @@ const UpdateDetails = ({ show, handleClose}) => {
             <Form.Label>Contact</Form.Label>
             <Form.Control
               type="text"
-              name="contact"
+              name="cno"
               value={formData.cno}
               onChange={handleChange}
             />
